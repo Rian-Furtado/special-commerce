@@ -81,7 +81,7 @@ public class User implements UserDetails {
         this.birthDate = birthDate;
     }
 
-    @Override
+     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
     }
