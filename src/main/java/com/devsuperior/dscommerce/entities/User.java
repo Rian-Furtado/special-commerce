@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity // Transforma minha classe/objeto em uma tabela no banco de dados.
 @Table(name = "tb_user") // permite que eu consiga mudar o nome da tabela no banco.
@@ -20,6 +22,12 @@ public class User {
     private String password;
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User(){
 
@@ -81,6 +89,20 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void addRole(Role role){
+        roles.add(role);
+    }
+
+    public boolean hasRole(String roleName){
+        for (Role role : roles){
+            if(role.getAuthority().equals(roleName)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public List<Order> getOrders() {
         return orders;
