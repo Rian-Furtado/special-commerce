@@ -80,4 +80,8 @@ public class Order {
     public List<Product> getProducts(){
         return items.stream().map(OrderItem::getProduct).toList();
     }
+
+    public Set<OrderItem> getItems() {
+        return items;
+    }
 }
